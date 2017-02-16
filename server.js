@@ -5,26 +5,57 @@ var path = require('path');
 var app = express();
 app.use(morgan('combined'));
 
-var articleOne = {
-    title: 'Article One | Shen',
-    heading: 'Article One',
-    date: 'Feb 16th 2017',
-    content: ` <p> 
-        This is the content of my first article. This is the content of my first article This is the content of my first article This is the content of my first article This is the content of my first article This is the content of my first article This is the content of my first article This is the content of my first article This is the content of my first article This is the content of my first article This is the content of my first article This is the content of my first article
-        </p>
-        <p>
-             This is the content of my first article This is the content of my first article This is the content of my first article This is the content of my first article This is the content of my first article This is the content of my first article This is the content of my first article This is the content of my first article This is the content of my first article This is the content of my first article
-        </p>
-        <p>
-             This is the content of my first article This is the content of my first article This is the content of my first article This is the content of my first article This is the content of my first article This is the content of my first article This is the content of my first article This is the content of my first article This is the content of my first article
-        </p>`
+var articles = {
+     article-one: {
+        title: 'Article One | Shen',
+        heading: 'Article One',
+        date: 'Feb 16th 2017',
+        content: ` <p> 
+            This is the content of my first article. This is the content of my first article This is the content of my first article This is the content of my first article This is the content of my first article This is the content of my first article This is the content of my first article This is the content of my first article This is the content of my first article This is the content of my first article This is the content of my first article This is the content of my first article
+            </p>
+            <p>
+                 This is the content of my first article This is the content of my first article This is the content of my first article This is the content of my first article This is the content of my first article This is the content of my first article This is the content of my first article This is the content of my first article This is the content of my first article This is the content of my first article
+            </p>
+            <p>
+                 This is the content of my first article This is the content of my first article This is the content of my first article This is the content of my first article This is the content of my first article This is the content of my first article This is the content of my first article This is the content of my first article This is the content of my first article
+            </p>`
    
+            },
+            article-two: {
+        title: 'Article Two | Shen',
+        heading: 'Article Two',
+        date: 'Feb 19th 2017',
+        content: ` <p> 
+            This is the content of my 2nd article. 
+            </p>
+            <p>
+                 This is the content of my 2nd article 
+            </p>
+            <p>
+                 This is the content of my 2nd article 
+            </p>`
+            },
+            article-three: {
+        title: 'Article Three | Shen',
+        heading: 'Article Three',
+        date: 'Feb 29th 2017',
+        content: ` <p> 
+            This is the content of my 3rd article. 
+            </p>
+            <p>
+                 This is the content of my 3rd article 
+            </p>
+            <p>
+                 This is the content of my 3rd article 
+            </p>`
+   
+            }
 };
     
     function createTemplate (data) {
         var title = data.title;
         var date = data.date;
-        var heading=data.heading;
+        var heading = data.heading;
         var content = data.content;
         
 var htmlTemplate = `<html>
@@ -59,18 +90,13 @@ app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'index.html'));
 });
 
-app.get('/article-one', function (req, res) {
-   res.send(createTemplate(articleOne));
+app.get('/:articlename', function (req, res) {
+    // articlename == article-one
+// articles[articlename] == content object for artice one
+    var articlename = req.params.articlename;
+   res.send(createTemplate(articles[articlename]));
 });
 
-app.get('/article-two', function (req, res) {
-    res.sendFile(path.join(__dirname, 'ui', 'article-two.html'));
-});
-
-
-app.get('/article-three', function (req, res) {
-    res.sendFile(path.join(__dirname, 'ui', 'article-three.html'));
-});
 app.get('/ui/style.css', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'style.css'));
 });
